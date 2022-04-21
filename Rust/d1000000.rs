@@ -31,10 +31,9 @@ fn main(){
   read!(t as i32);
   while t > 0 {
     read!(n as i32);
-    
     read_vec!(s as i32);    
-    
     s.sort();
+    
     let mut curr:i32 = 1;
     for dice in s {
       let dice: i32 = dice;
