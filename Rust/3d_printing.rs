@@ -28,30 +28,21 @@ fn get_min_ink(printers:u32) -> [u32;4]{ //Get minimum ink level for each color 
 }
 
 fn get_ink_level(t:u32,req_ink:u32,min_ink: &mut [u32;4]) -> String { //Get a possible ink combination for printing
-    let sum: u32 = min_ink.iter().sum();
+    let mut sum: u32 = min_ink.iter().sum();
     if sum <req_ink{
         return format!("Case #{}: IMPOSSIBLE",t+1);
     }else{
-        let mut ink_sum = min_ink[1]+min_ink[2]+min_ink[3];
-        if ink_sum>req_ink{
-            min_ink[0]=0;
-            ink_sum = min_ink[2]+min_ink[3];
-            if ink_sum>req_ink{
-                min_ink[1]=0;
-                ink_sum = min_ink[3];
-                if ink_sum>req_ink{
-                    min_ink[2]=0;
-                }
-                else{
-                    min_ink[2]=req_ink-ink_sum;
-                }
+        for i in 0..4{
+            sum = 0;
+            for j in (i+1)..4{
+                sum = sum+min_ink[j];
             }
-            else{
-                min_ink[1]=req_ink-ink_sum;
+            if sum>req_ink{
+                min_ink[i]=0;
+            }else{
+                min_ink[i] = req_ink - sum;
+                break;
             }
-        }
-        else{
-            min_ink[0] = req_ink - ink_sum;
         }
         return format!("Case #{}: {} {} {} {}",t+1,min_ink[0],min_ink[1],min_ink[2],min_ink[3]);
    }
@@ -62,8 +53,6 @@ fn main() {
     let case_lines = 3;
     let req_ink = 1000000;
     let test_cases = get_case_num();
-    
-    //Cycle through each case
     for t in 0..test_cases {
         let mut min_ink = get_min_ink(case_lines);
         let result = get_ink_level(t,req_ink,&mut min_ink);
