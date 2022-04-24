@@ -46,7 +46,7 @@ class Tree{
         if(node.children.isEmpty())
             return node.fun;
         long[] results = new long[node.children.size()];
-        long min = 1000000001;
+        long min = 1e9;
         for (int i = 0; i < node.children.size(); i++) {
             results[i] = getMinOfMax(node.children.get(i));
             this.total = this.total.add(BigInteger.valueOf(results[i]));
